@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntroductionToADO", "Introd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{65A76F8D-839B-47CC-8C22-B408591BBFB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library2", "Library2\Library2.csproj", "{86DA31C3-7A6B-49E6-A547-AFB608C273AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy", "Academy\Academy.csproj", "{79031601-F966-4FDA-9953-2629E1B9C66F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{65A76F8D-839B-47CC-8C22-B408591BBFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65A76F8D-839B-47CC-8C22-B408591BBFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65A76F8D-839B-47CC-8C22-B408591BBFB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86DA31C3-7A6B-49E6-A547-AFB608C273AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86DA31C3-7A6B-49E6-A547-AFB608C273AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86DA31C3-7A6B-49E6-A547-AFB608C273AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86DA31C3-7A6B-49E6-A547-AFB608C273AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79031601-F966-4FDA-9953-2629E1B9C66F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79031601-F966-4FDA-9953-2629E1B9C66F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79031601-F966-4FDA-9953-2629E1B9C66F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79031601-F966-4FDA-9953-2629E1B9C66F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
