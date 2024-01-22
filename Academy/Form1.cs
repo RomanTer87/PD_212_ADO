@@ -28,6 +28,7 @@ namespace Academy
 			connection = new SqlConnection(connectionString);
 			//LoadTablesToComboBox();
 			LoadGroupsToCpmboBox(cbGroup);
+			LoadDirectionsToComboBox();
 			SelectStudents();
 		}
 		void LoadTablesToComboBox()
@@ -52,6 +53,19 @@ namespace Academy
 			while (reader.Read())
 			{
 				comboBox.Items.Add(reader[0]);
+			}
+			reader.Close();
+			connection.Close();
+		}
+		public void LoadDirectionsToComboBox()
+		{
+			string commandLine = @"SELECT direction_name FROM Directions";
+			SqlCommand cmd = new SqlCommand(commandLine,connection);
+			connection.Open();
+			reader = cmd.ExecuteReader();
+			while(reader.Read())
+			{
+				cbDirection.Items.Add(reader[0]);
 			}
 			reader.Close();
 			connection.Close();
@@ -121,15 +135,83 @@ FROM Students JOIN Groups ON Students.[group]=Groups.group_id";
 				cmd.Parameters.Add("@birth_date", add_student.BirthDate.ToString("yyyy-MM-dd"));
 				cmd.Parameters.Add("@group", add_student.Group);
 				cmd.CommandText = @"
-NSERT INTO
+IF NOT EXISTS (SELECT stud_id FROM Students WHERE last_name=@last_name AND first_name=@first_name AND middle_name=@middle_name)
+BEGIN
+INSERT INTO
 Students	(last_name, first_name, middle_name, birth_date, [group])
 VALUES		(@last_name, @first_name, @middle_name, @birth_date, (SELECT group_id FROM Groups WHERE group_name=@group))
+END
 ";
 				connection.Open();
 				cmd.ExecuteNonQuery();
 				connection.Close();
 				cbGroup.SelectedItem = add_student.Group;
 				SelectStudents();
+			}
+		}
+
+		private void cbDirection_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			dgwStudents.DataSource = null;
+			SqlCommand cmd = new SqlCommand();
+			cmd.Connection = connection;
+		if(cbDirection.SelectedItem !=null)	cmd.Parameters.Add("@direction", cbDirection.SelectedItem);
+			if (rbStudents.Checked)
+			{
+				cmd.CommandText = @"
+SELECT	last_name, first_name, middle_name, birth_date, group_name, direction_name
+FROM	Students
+JOIN	Groups ON Students.[group]=Groups.group_id
+JOIN	Directions ON Groups.direction=Directions.direction_id";
+if(cbDirection.SelectedItem != null) cmd.CommandText +=
+@" WHERE	Directions.direction_name=@direction
+"; 
+			}
+			if(rbGroups.Checked)
+			{
+				cmd.CommandText = @"
+SELECT	group_name, direction_name
+FROM	Groups
+JOIN	Directions ON Groups.direction=Directions.direction_id";
+				if (cbDirection.SelectedItem != null) cmd.CommandText +=
+@" WHERE	Directions.direction_name=@direction
+";
+			}
+			connection.Open();
+			reader = cmd.ExecuteReader();
+			table=new DataTable();
+			for(int i=0;i<reader.FieldCount;i++)
+			{
+				table.Columns.Add(reader.GetName(i));
+			}
+			while(reader.Read())
+			{
+				DataRow row = table.NewRow();
+				for(int i=0; i<reader.FieldCount;i++)
+				{
+					row[i] = reader[i];
+				}
+				table.Rows.Add(row);
+			}
+			dgwStudents.DataSource = table;
+			reader.Close();
+			int studentsCount = dgwStudents.RowCount;
+			lblStudCount.Text = $"Количество студентов: {studentsCount}";
+			connection.Close();
+		}
+
+		private void rbGroups_CheckedChanged(object sender, EventArgs e)
+		{
+			if(rbGroups.Checked) { 
+			cbDirection_SelectedIndexChanged(sender, e);
+			}
+		}
+
+		private void rbStudents_CheckedChanged(object sender, EventArgs e)
+		{
+			if(rbStudents.Checked)
+			{
+				cbDirection_SelectedIndexChanged(sender, e);
 			}
 		}
 	}

@@ -31,7 +31,7 @@ namespace Academy
 		{
 			FullName = textBoxFullName.Text;
 			BirthDate = dateTimePickerBirthDate.Value;
-			Group = comboBoxGroup.SelectedText;
+			Group = comboBoxGroup.SelectedItem.ToString();
 			this.Close();
 		}
 
