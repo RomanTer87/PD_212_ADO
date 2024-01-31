@@ -64,7 +64,6 @@
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.Size = new System.Drawing.Size(1017, 426);
 			this.tabControl.TabIndex = 0;
-			this.tabControl.UseWaitCursor = true;
 			// 
 			// tabPageStudents
 			// 
@@ -188,7 +187,6 @@
 			this.tabPageGroups.Size = new System.Drawing.Size(1009, 400);
 			this.tabPageGroups.TabIndex = 2;
 			this.tabPageGroups.Text = "Группы";
-			this.tabPageGroups.UseWaitCursor = true;
 			// 
 			// dataGridViewGroups
 			// 
