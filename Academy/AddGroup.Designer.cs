@@ -31,14 +31,15 @@
 			this.cbDirections = new System.Windows.Forms.ComboBox();
 			this.cbLearningForm = new System.Windows.Forms.ComboBox();
 			this.cbTime = new System.Windows.Forms.ComboBox();
-			this.tbName = new System.Windows.Forms.TextBox();
+			this.tbGroupName = new System.Windows.Forms.TextBox();
 			this.lcbWeek = new System.Windows.Forms.CheckedListBox();
+			this.btnGenerate = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// cbDirections
 			// 
 			this.cbDirections.FormattingEnabled = true;
-			this.cbDirections.Location = new System.Drawing.Point(13, 24);
+			this.cbDirections.Location = new System.Drawing.Point(12, 56);
 			this.cbDirections.Name = "cbDirections";
 			this.cbDirections.Size = new System.Drawing.Size(539, 21);
 			this.cbDirections.TabIndex = 0;
@@ -47,7 +48,7 @@
 			// cbLearningForm
 			// 
 			this.cbLearningForm.FormattingEnabled = true;
-			this.cbLearningForm.Location = new System.Drawing.Point(13, 52);
+			this.cbLearningForm.Location = new System.Drawing.Point(12, 29);
 			this.cbLearningForm.Name = "cbLearningForm";
 			this.cbLearningForm.Size = new System.Drawing.Size(539, 21);
 			this.cbLearningForm.TabIndex = 1;
@@ -62,13 +63,13 @@
 			this.cbTime.TabIndex = 2;
 			this.cbTime.Text = "Время обучения";
 			// 
-			// tbName
+			// tbGroupName
 			// 
-			this.tbName.Location = new System.Drawing.Point(13, 211);
-			this.tbName.Name = "tbName";
-			this.tbName.Size = new System.Drawing.Size(539, 20);
-			this.tbName.TabIndex = 3;
-			this.tbName.Text = "Название группы";
+			this.tbGroupName.Location = new System.Drawing.Point(13, 211);
+			this.tbGroupName.Name = "tbGroupName";
+			this.tbGroupName.Size = new System.Drawing.Size(539, 20);
+			this.tbGroupName.TabIndex = 3;
+			this.tbGroupName.Text = "Название группы";
 			// 
 			// lcbWeek
 			// 
@@ -89,14 +90,26 @@
 			this.lcbWeek.Size = new System.Drawing.Size(429, 19);
 			this.lcbWeek.TabIndex = 5;
 			// 
+			// btnGenerate
+			// 
+			this.btnGenerate.Location = new System.Drawing.Point(477, 253);
+			this.btnGenerate.Name = "btnGenerate";
+			this.btnGenerate.Size = new System.Drawing.Size(75, 23);
+			this.btnGenerate.TabIndex = 6;
+			this.btnGenerate.Text = "Generate";
+			this.btnGenerate.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.btnGenerate.UseVisualStyleBackColor = true;
+			this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+			// 
 			// AddGroup
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
-			this.ClientSize = new System.Drawing.Size(564, 243);
+			this.ClientSize = new System.Drawing.Size(564, 288);
+			this.Controls.Add(this.btnGenerate);
 			this.Controls.Add(this.lcbWeek);
-			this.Controls.Add(this.tbName);
+			this.Controls.Add(this.tbGroupName);
 			this.Controls.Add(this.cbTime);
 			this.Controls.Add(this.cbLearningForm);
 			this.Controls.Add(this.cbDirections);
@@ -112,7 +125,8 @@
 		private System.Windows.Forms.ComboBox cbDirections;
 		private System.Windows.Forms.ComboBox cbLearningForm;
 		private System.Windows.Forms.ComboBox cbTime;
-		private System.Windows.Forms.TextBox tbName;
+		private System.Windows.Forms.TextBox tbGroupName;
 		private System.Windows.Forms.CheckedListBox lcbWeek;
+		private System.Windows.Forms.Button btnGenerate;
 	}
 }

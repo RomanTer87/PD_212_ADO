@@ -31,6 +31,7 @@ namespace Academy
 			InitializeComponent();
 			connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 			connection = new SqlConnection(connectionString);
+			GetDataFromBase();
 			//((Form1)Parent).LoadDataToComboBox(cbDirections, "Directions", "direction_name", "Выберите направление обучения");
 			//((Form1)Parent).LoadDataToComboBox(cbLearningForm, "LearningForms", "form_name", "Выберите форму обучения");
 			//((Form1)Parent).LoadDataToComboBox(cbTime, "LearningTimes", "form_name", "Выберите время обучения");
@@ -45,7 +46,10 @@ namespace Academy
 				adapter = new SqlDataAdapter(cmd, connection);
 				builder = new SqlCommandBuilder(adapter);
 				adapter.Fill(set, "Directions");
-				adapter.SelectCommand.CommandText = $@"SELECT * FROM Times";
+
+				adapter.SelectCommand.CommandText = $@"SELECT * FROM LearningTimes";
+				builder.DataAdapter = adapter;
+				adapter.Fill(set, "LearningTimes");
 			}
 			catch(Exception e)
 			{
@@ -55,13 +59,27 @@ namespace Academy
 		string GenerateGroupName()
 		{
 			string group_name = "";
-			if(cbLearningForm.SelectedItem == "Стационар")
+			if(cbLearningForm.SelectedItem.ToString() != "Годичные курсы")
 			{
-				//if(cbDirections.SelectedItem == "Разработка программного обеспечения")group_name+=
+				//if(cbDirections.SelectedItem.ToString() == "Разработка программного обеспечения")
+				{
+					if (cbLearningForm.SelectedItem.ToString() == "Полустационар") group_name += lcbWeek.SelectedItem.ToString();
+					//DataRow[] rows = set.Tables["Directions"].Select("direction_name='Разработка программного обеспечения'");
+					//DataRow row = rows[0];
+					//group_name += row["direction_code_name"];
+					group_name +=
+						set.Tables["Directions"].Select($"direction_name='{cbDirections.SelectedItem.ToString()}'")[0]["direction_code_name"];
+					group_name +=
+						set.Tables["LearningTimes"].Select($"time_name='{CBLearningTime.SelectedItem.ToString()}'")[0]["time_code_name"];
+				}
 			}
-
+			group_name += "_";
 			return group_name;
 		}
-	
+
+		private void btnGenerate_Click(object sender, EventArgs e)
+		{
+			tbGroupName.Text = GenerateGroupName();
+		}
 	}
 }
