@@ -190,6 +190,7 @@
 			// 
 			// dataGridViewGroups
 			// 
+			this.dataGridViewGroups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewGroups.Location = new System.Drawing.Point(7, 44);
 			this.dataGridViewGroups.Name = "dataGridViewGroups";

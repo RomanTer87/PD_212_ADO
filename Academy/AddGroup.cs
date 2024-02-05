@@ -16,6 +16,7 @@ namespace Academy
 {
 	public partial class AddGroup : Form
 	{
+	Form1 mainForm;
 		private string connectionString;
 		SqlConnection connection;
 		SqlDataAdapter adapter;		//Вытягивает результаты запросов из базы, их сохраняет их в DataSet
@@ -26,16 +27,19 @@ namespace Academy
 		public System.Windows.Forms.ComboBox CBLearningTime { get => cbTime; }
 		string[] week = new string [] { "Пн", "Вт", "Ср", "Чт", "Пт", "Cб", "Вс" };
 		CheckBox[] cbWeek;
-		public AddGroup()
+		public AddGroup(Form1 mainForm)
 		{
+			this.mainForm = mainForm;
 			InitializeComponent();
 			connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 			connection = new SqlConnection(connectionString);
 			GetDataFromBase();
-			//((Form1)Parent).LoadDataToComboBox(cbDirections, "Directions", "direction_name", "Выберите направление обучения");
-			//((Form1)Parent).LoadDataToComboBox(cbLearningForm, "LearningForms", "form_name", "Выберите форму обучения");
-			//((Form1)Parent).LoadDataToComboBox(cbTime, "LearningTimes", "form_name", "Выберите время обучения");
+			mainForm.LoadDataToComboBox(cbLearningForm, "LearningForms", "form_name", "Выберите форму обучения");
+			//mainForm.LoadDataToComboBox(cbDirections, "Directions", "direction_name", "Выберите направление обучения");
+			mainForm.LoadDataToComboBox(cbTime, "LearningTimes", "time_name", "Выберите время обучения");
 			cbWeek = new CheckBox[7];
+
+			
 		}
 		void GetDataFromBase()
 		{
@@ -80,6 +84,22 @@ namespace Academy
 		private void btnGenerate_Click(object sender, EventArgs e)
 		{
 			tbGroupName.Text = GenerateGroupName();
+		}
+
+		private void cbLearningForm_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			mainForm.LoadDataToComboBox
+				(
+				cbDirections,
+				"Directions, LearningForms, LearningFormsDirectionsRelation",
+				"direction_name",
+				"Выберите форму обучения",
+				$@"
+WHERE	 LearningFormsDirectionsRelation.learning_form=LearningForms.form_id
+AND		 LearningFormsDirectionsRelation.direction=Directions.direction_id
+AND		 form_name = {CBLearningForm.SelectedItem.ToString()}
+"
+				);
 		}
 	}
 }

@@ -48,10 +48,15 @@ namespace Academy
 			connection.Close();
 		}
 		public void LoadDataToComboBox(
-			System.Windows.Forms.ComboBox comboBox ,string sourceTable,
-			string sourceColumn, string invite = "Выберите значение")
+			System.Windows.Forms.ComboBox comboBox,
+			string sourceTable,
+			string sourceColumn,
+			string invite = "Выберите значение",
+			string condition = null
+			)
 		{
-			string commandLine = $@"SELECT {sourceColumn} FROM {sourceTable}";
+			string commandLine = $@"SELECT {sourceColumn} FROM {sourceTable} ";
+			if (condition != null) commandLine += condition;
 			SqlCommand cmd = new SqlCommand(commandLine, connection);
 			//SqlCommand cmd = new SqlCommand();
 			//cmd.Connection= connection;
@@ -294,10 +299,10 @@ FROM Groups JOIN Directions ON direction=direction_id
 
 		private void btnGroupAdd_Click(object sender, EventArgs e)
 		{
-			AddGroup add = new AddGroup();
-			LoadDataToComboBox(add.CBDirection, "Directions", "direction_name", "Выберите направление обучения");
-			LoadDataToComboBox(add.CBLearningForm, "LearningForms", "form_name", "Выберите форму обучения");
-			LoadDataToComboBox(add.CBLearningTime, "LearningTimes", "time_name", "Выберите время обучения");
+			AddGroup add = new AddGroup(this);
+			//LoadDataToComboBox(add.CBDirection, "Directions", "direction_name", "Выберите направление обучения");
+			//LoadDataToComboBox(add.CBLearningForm, "LearningForms", "form_name", "Выберите форму обучения");
+			//LoadDataToComboBox(add.CBLearningTime, "LearningTimes", "time_name", "Выберите время обучения");
 			DialogResult result = add.ShowDialog();
 			{
 				if(result == DialogResult.OK)
