@@ -15,6 +15,7 @@ namespace Academy
 		SqlDataAdapter adapter;
 		DataSet set;
 		SqlCommandBuilder builder;
+		DataSet Set { get; }
 		TableStorage()
 		{
 			string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;

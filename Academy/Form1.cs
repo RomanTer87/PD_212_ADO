@@ -88,6 +88,18 @@ namespace Academy
 			reader.Close();
 			connection.Close();
 		}
+		public void LoadDataFromStorageToComboBox
+			(
+			System.Windows.Forms.ComboBox comboBox,
+			DataSet set,
+			string table_name,
+			string column_name,
+			string invite = "Выберите значение",
+			string condition = null
+			)
+		{
+			set.Tables[table_name]
+		}
 		public void SelectDataFromTable(
 			System.Windows.Forms.DataGridView dataGridView,
 			string commandLine
