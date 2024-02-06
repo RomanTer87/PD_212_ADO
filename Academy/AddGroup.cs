@@ -150,7 +150,7 @@ namespace Academy
 			//AND		 form_name = {CBLearningForm.SelectedItem.ToString()}
 			//"
 			//				);
-
+			int selectedIndexInDirection = cbDirections.SelectedIndex;
 			cbDirections.Items.Clear();
 			if(cbLearningForm.SelectedIndex!=0)
 			mainForm.LoadDataFromStorageToComboBox
@@ -165,6 +165,18 @@ AND		 LearningFormsDirectionsRelation.direction=Directions.direction_id
 AND		 form_name = '{CBLearningForm.SelectedItem.ToString()}'
 "
 							);
+			//cbDirections.SelectedIndex = selectedIndexInDirection < cbDirections.Items.Count ? selectedIndexInDirection : -1;
+			if(selectedIndexInDirection<cbDirections.Items.Count)
+			{
+				cbDirections.SelectedIndex = selectedIndexInDirection;
+			}
+			else
+			{
+				cbDirections.SelectedIndex = -1;
+				cbDirections.Text = "выберите направление обучения";
+				MessageBox.Show(this, "На данной форме обучения нет такого направления", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				cbDirections.Select();
+			}
 		}
 
 		private void clbWeek_SelectedIndexChanged(object sender, EventArgs e)
