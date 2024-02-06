@@ -184,7 +184,7 @@
 			this.tabPageGroups.Location = new System.Drawing.Point(4, 22);
 			this.tabPageGroups.Name = "tabPageGroups";
 			this.tabPageGroups.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageGroups.Size = new System.Drawing.Size(1009, 400);
+			this.tabPageGroups.Size = new System.Drawing.Size(1015, 315);
 			this.tabPageGroups.TabIndex = 2;
 			this.tabPageGroups.Text = "Группы";
 			// 
@@ -222,7 +222,7 @@
 			this.dataGridViewGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewGroups.Location = new System.Drawing.Point(7, 44);
 			this.dataGridViewGroups.Name = "dataGridViewGroups";
-			this.dataGridViewGroups.Size = new System.Drawing.Size(999, 353);
+			this.dataGridViewGroups.Size = new System.Drawing.Size(999, 268);
 			this.dataGridViewGroups.TabIndex = 0;
 			// 
 			// Form1

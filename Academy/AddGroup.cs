@@ -210,6 +210,32 @@ AND		 form_name = '{CBLearningForm.SelectedItem.ToString()}'
 			if (wrong_days) MessageBox.Show(this, "Проверьте дни обучения", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			else MessageBox.Show(this, "Все хорошо ;-)", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			if (wrong_days) return;
+
+			TableStorage storage = new TableStorage();
+			storage.GetDataFromBase("Directions");
+			storage.GetDataFromBase("LearningTimes");
+			storage.GetDataFromBase("Groups");
+			//string insert_cmd = $@"
+			//	INSERT INTO Groups(group_name, direction, learning_time, learning_days)
+			//	VALUES (
+			//	'{tbGroupName.Text}',
+			//	{set.Tables["Directions"].Select($"direction_name='{cbDirections.SelectedItem.ToString()}'")[0]["direction_id"]},
+			//	{set.Tables["LearningTimes"].Select($"time_name='{cbTime.SelectedItem.ToString()}'")[0]["time_id"]},
+			//	{GetBitSet()}
+			//	)";
+			////storage.Adapter.InsertCommand.ExecuteNonQuery();
+			//storage.Insert(insert_cmd);
+
+			DataRow row = storage.Set.Tables["Groups"].NewRow();
+			row["group_name"] = tbGroupName.Text;
+			row["direction"] = storage.Set.Tables["Directions"].Select($"direction_name='{cbDirections.SelectedItem.ToString()}'")[0]["direction_id"];
+			row["learning_time"] = storage.Set.Tables["LearningTimes"].Select($"time_name='{cbTime.SelectedItem.ToString()}'")[0]["time_id"];
+			row["learning_days"] = GetBitSet();
+			storage.Set.Tables["Groups"].Rows.Add(row);
+			storage.Adapter.Update(storage.Set, "Groups");
+			this.Close();
+
 		}
+	
 	}
 }

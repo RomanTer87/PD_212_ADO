@@ -324,7 +324,9 @@ FROM Groups JOIN Directions ON direction=direction_id
 			{
 				if(result == DialogResult.OK)
 				{
-
+					//TableStorage storage = new TableStorage();
+					//storage.GetDataFromBase("Groups,Directions", "group_name, direction_name")
+					cbDirectionOnGroupTab_SelectedIndexChanged(sender, e);
 				}
 			}
 		}
