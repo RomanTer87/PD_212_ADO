@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Runtime.InteropServices;
 
 namespace Academy
 {
@@ -39,8 +40,53 @@ namespace Academy
 			mainForm.LoadDataToComboBox(cbTime, "LearningTimes", "time_name", "Выберите время обучения");
 			cbWeek = new CheckBox[7];
 
-			
 		}
+		byte GetBitSet()
+		{
+			byte days = 0;
+			#region PrintInConsole
+			//AllocConsole();
+			//Console.Write("Days:\t");
+			//for(int i=0;i<clbWeek.CheckedItems.Count;i++)
+			//{
+			//	Console.Write(clbWeek.CheckedItems[i]+"\t");
+			//}
+			//Console.WriteLine();
+			//Console.Write("Nums:\t");
+			//for(int i = 0; i < clbWeek.CheckedIndices.Count; i++)
+			//{
+			//	Console.Write(clbWeek.CheckedIndices[i]+"\t");
+			//}
+			//Console.WriteLine();
+			//Console.WriteLine("\n--------------------------------------------------\n"); 
+			#endregion
+
+			for(int i=0;i<clbWeek.CheckedIndices.Count;i++)
+			{
+				//byte day = (byte)Math.Pow(2, clbWeek.CheckedIndices[i]);
+				//days += day;
+				byte day = 1;
+				day <<= clbWeek.CheckedIndices[i];
+				days|= day;
+				/*
+				 ---------------------------------------------------------------
+
+				<<  (побитовый сдвиг в лево) - это бинарный оператор, который сдвигает число на заданное количество бит в лево.
+											   Свдиг числа на 1 бит влево увеличивает число в два раза (выполняет умножение числа на 2)
+											   Свдиг числа на 2 бита влево увеличивает число в четыре раза (выполняет умножение числа на 4)
+											   Свдиг числа на 3 бита влево увеличивает число в восемь раз (выполняет умножение числа на 8)
+
+				| (побитовое сложение, побитовый OR) - если соответсвтующий бит хотя бы в одном операнде равен == 1. то этот же бит результата будет 1.
+
+				Все побитовые операторы можно комбинировать с оператором присваивания.
+				 ---------------------------------------------------------------
+				 */
+			}
+
+			return days;
+		}
+		[DllImport("kernel32.dll")]
+		static extern bool AllocConsole();
 		void GetDataFromBase()
 		{
 			try
@@ -62,12 +108,16 @@ namespace Academy
 		}
 		string GenerateGroupName()
 		{
+			//if (cbLearningForm.SelectedIndex == 0) return "Выберите форму обучения";
+			//if (cbDirections.SelectedItem == null || cbDirections.SelectedItem.ToString() == "Выберите направление обучения") return "Выберите направление обучения";
+			//if (cbTime.SelectedIndex == 0) return "Выберите время обучения";
+			if (!AllCombosOk()) return "Что-то пошло не так";
 			string group_name = "";
 			if(cbLearningForm.SelectedItem.ToString() != "Годичные курсы")
 			{
 				//if(cbDirections.SelectedItem.ToString() == "Разработка программного обеспечения")
 				{
-					if (cbLearningForm.SelectedItem.ToString() == "Полустационар") group_name += lcbWeek.SelectedItem.ToString();
+					if (cbLearningForm.SelectedItem.ToString() == "Полустационар") group_name += clbWeek.SelectedItem.ToString();
 					//DataRow[] rows = set.Tables["Directions"].Select("direction_name='Разработка программного обеспечения'");
 					//DataRow row = rows[0];
 					//group_name += row["direction_code_name"];
@@ -115,6 +165,51 @@ AND		 LearningFormsDirectionsRelation.direction=Directions.direction_id
 AND		 form_name = '{CBLearningForm.SelectedItem.ToString()}'
 "
 							);
+		}
+
+		private void clbWeek_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			lblLearningDaysCode.Text = $"Дни обучения: {GetBitSet()}";
+		}
+		bool ComboBoxOk(ComboBox comboBox)
+		{
+			if (comboBox.SelectedItem == null) return false;
+			if (comboBox.SelectedItem.ToString().Contains(" обучения")) return false;
+			return true;
+		}
+		bool AllCombosOk()
+		{
+			string message = "";
+			if (cbLearningForm.SelectedIndex == 0) message = "Выберите форму обучения";
+			else if (cbDirections.SelectedItem == null || cbDirections.SelectedItem.ToString() == "Выберите направление обучения") message = "Выберите направление обучения";
+			else if (cbTime.SelectedIndex == 0) message = "Выберите время обучения";
+			if(message.Length>0)
+			{
+				MessageBox.Show(this, message, "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+				return false;
+			}
+			return true;
+		}
+
+		private void btnCreateGroup_Click(object sender, EventArgs e)
+		{
+			if(AllCombosOk() == false) return;
+			//if  (
+			//	!ComboBoxOk(cbLearningForm) && 
+			//	!ComboBoxOk(cbDirections) &
+			//	!ComboBoxOk(cbTime)
+			//	)
+			//{
+			//	MessageBox.Show(this, "Ничего не выбрано", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			//	return;
+			//}
+			bool wrong_days = false;
+			if (cbLearningForm.SelectedItem.ToString() == "Стационар" && clbWeek.CheckedItems.Count != 3) wrong_days = true;
+			if (cbLearningForm.SelectedItem.ToString() == "Полустационар" && clbWeek.CheckedItems.Count != 1) wrong_days = true;
+			if (cbLearningForm.SelectedItem.ToString() == "Годичные курсы" && clbWeek.CheckedItems.Count != 2) wrong_days = true;
+			if (wrong_days) MessageBox.Show(this, "Проверьте дни обучения", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			else MessageBox.Show(this, "Все хорошо ;-)", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if (wrong_days) return;
 		}
 	}
 }
