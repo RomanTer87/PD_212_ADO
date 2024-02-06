@@ -88,18 +88,33 @@ namespace Academy
 
 		private void cbLearningForm_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			mainForm.LoadDataToComboBox
-				(
-				cbDirections,
-				"Directions, LearningForms, LearningFormsDirectionsRelation",
-				"direction_name",
-				"Выберите форму обучения",
-				$@"
-WHERE	 LearningFormsDirectionsRelation.learning_form=LearningForms.form_id
+			//			mainForm.LoadDataToComboBox
+			//				(
+			//				cbDirections,
+			//				"Directions, LearningForms, LearningFormsDirectionsRelation",
+			//				"direction_name",
+			//				"Выберите форму обучения",
+			//				$@"
+			//WHERE	 LearningFormsDirectionsRelation.learning_form=LearningForms.form_id
+			//AND		 LearningFormsDirectionsRelation.direction=Directions.direction_id
+			//AND		 form_name = {CBLearningForm.SelectedItem.ToString()}
+			//"
+			//				);
+
+			cbDirections.Items.Clear();
+			if(cbLearningForm.SelectedIndex!=0)
+			mainForm.LoadDataFromStorageToComboBox
+							(
+							cbDirections,
+							"Directions, LearningForms, LearningFormsDirectionsRelation",
+							"direction_name",
+							"Выберите форму обучения",
+							$@"
+		 LearningFormsDirectionsRelation.learning_form=LearningForms.form_id
 AND		 LearningFormsDirectionsRelation.direction=Directions.direction_id
-AND		 form_name = {CBLearningForm.SelectedItem.ToString()}
+AND		 form_name = '{CBLearningForm.SelectedItem.ToString()}'
 "
-				);
+							);
 		}
 	}
 }

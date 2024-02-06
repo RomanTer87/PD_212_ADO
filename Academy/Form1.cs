@@ -91,14 +91,19 @@ namespace Academy
 		public void LoadDataFromStorageToComboBox
 			(
 			System.Windows.Forms.ComboBox comboBox,
-			DataSet set,
 			string table_name,
 			string column_name,
 			string invite = "Выберите значение",
 			string condition = null
 			)
 		{
-			set.Tables[table_name]
+			TableStorage storage = new TableStorage();
+			storage.GetDataFromBase(table_name, column_name, condition);
+			DataRow[] rows = storage.Set.Tables[0].Select();
+			for(int i=0; i<rows.Length; i++)
+			{
+				comboBox.Items.Add(rows[i][column_name]);
+			}
 		}
 		public void SelectDataFromTable(
 			System.Windows.Forms.DataGridView dataGridView,

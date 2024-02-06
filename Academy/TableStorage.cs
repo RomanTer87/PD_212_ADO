@@ -9,14 +9,14 @@ using System.Configuration;
 
 namespace Academy
 {
-	internal class TableStorage
+	 public class TableStorage
 	{
 		SqlConnection connection;
 		SqlDataAdapter adapter;
 		DataSet set;
 		SqlCommandBuilder builder;
-		DataSet Set { get; }
-		TableStorage()
+		public DataSet Set { get => set; }
+		public TableStorage()
 		{
 			string connectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 			connection = new SqlConnection(connectionString);
@@ -31,6 +31,20 @@ namespace Academy
 				adapter = new SqlDataAdapter(cmd, connection);
 				builder = new SqlCommandBuilder(adapter);
 				adapter.Fill(set,table);
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
+		public void GetDataFromBase(string tables, string columns, string condition)
+		{
+			try
+			{
+				string cmd = $"SELECT {columns} FROM {tables} WHERE {condition}";
+				adapter = new SqlDataAdapter(cmd, connection);
+				builder = new SqlCommandBuilder(adapter);
+				adapter.Fill(set);
 			}
 			catch (Exception e)
 			{
