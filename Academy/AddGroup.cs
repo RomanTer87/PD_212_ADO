@@ -117,7 +117,7 @@ namespace Academy
 			{
 				//if(cbDirections.SelectedItem.ToString() == "Разработка программного обеспечения")
 				{
-					if (cbLearningForm.SelectedItem.ToString() == "Полустационар") group_name += clbWeek.SelectedItem.ToString();
+					if (cbLearningForm.SelectedItem.ToString() == "Полустационар") group_name += clbWeek.SelectedItem.ToString() == "Сб" ? "S": "V";
 					//DataRow[] rows = set.Tables["Directions"].Select("direction_name='Разработка программного обеспечения'");
 					//DataRow row = rows[0];
 					//group_name += row["direction_code_name"];
@@ -180,9 +180,9 @@ AND		 form_name = '{CBLearningForm.SelectedItem.ToString()}'
 		bool AllCombosOk()
 		{
 			string message = "";
-			if (cbLearningForm.SelectedIndex == 0) message = "Выберите форму обучения";
+			if (cbLearningForm.SelectedItem.ToString() == "Выберите форму обучения") message = "Выберите форму обучения";
 			else if (cbDirections.SelectedItem == null || cbDirections.SelectedItem.ToString() == "Выберите направление обучения") message = "Выберите направление обучения";
-			else if (cbTime.SelectedIndex == 0) message = "Выберите время обучения";
+			else if (cbTime.SelectedItem.ToString() == "Выберите время обучения") message = "Выберите время обучения";
 			if(message.Length>0)
 			{
 				MessageBox.Show(this, message, "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
@@ -226,14 +226,21 @@ AND		 form_name = '{CBLearningForm.SelectedItem.ToString()}'
 			////storage.Adapter.InsertCommand.ExecuteNonQuery();
 			//storage.Insert(insert_cmd);
 
-			DataRow row = storage.Set.Tables["Groups"].NewRow();
-			row["group_name"] = tbGroupName.Text;
-			row["direction"] = storage.Set.Tables["Directions"].Select($"direction_name='{cbDirections.SelectedItem.ToString()}'")[0]["direction_id"];
-			row["learning_time"] = storage.Set.Tables["LearningTimes"].Select($"time_name='{cbTime.SelectedItem.ToString()}'")[0]["time_id"];
-			row["learning_days"] = GetBitSet();
-			storage.Set.Tables["Groups"].Rows.Add(row);
-			storage.Adapter.Update(storage.Set, "Groups");
+			if (storage.Set.Tables["Groups"].Select($"group_name = '{tbGroupName.Text}'").Length == 0)
+			{
+				DataRow row = storage.Set.Tables["Groups"].NewRow();
+				row["group_name"] = tbGroupName.Text;
+				row["direction"] = storage.Set.Tables["Directions"].Select($"direction_name='{cbDirections.SelectedItem.ToString()}'")[0]["direction_id"];
+				row["learning_time"] = storage.Set.Tables["LearningTimes"].Select($"time_name='{cbTime.SelectedItem.ToString()}'")[0]["time_id"];
+				row["learning_days"] = GetBitSet();
+				storage.Set.Tables["Groups"].Rows.Add(row);
+				storage.Adapter.Update(storage.Set, "Groups"); 
 			this.Close();
+			}
+			else
+			{
+				MessageBox.Show(this, "Такая группа уже есть", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 
 		}
 	

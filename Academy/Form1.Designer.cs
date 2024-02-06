@@ -43,6 +43,7 @@
 			this.cbDirectionOnGroupTab = new System.Windows.Forms.ComboBox();
 			this.btnGroupAdd = new System.Windows.Forms.Button();
 			this.dataGridViewGroups = new System.Windows.Forms.DataGridView();
+			this.btnDelete = new System.Windows.Forms.Button();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgwStudents)).BeginInit();
@@ -177,6 +178,7 @@
 			// tabPageGroups
 			// 
 			this.tabPageGroups.BackColor = System.Drawing.SystemColors.Control;
+			this.tabPageGroups.Controls.Add(this.btnDelete);
 			this.tabPageGroups.Controls.Add(this.lblGroupsCount);
 			this.tabPageGroups.Controls.Add(this.cbDirectionOnGroupTab);
 			this.tabPageGroups.Controls.Add(this.btnGroupAdd);
@@ -225,6 +227,16 @@
 			this.dataGridViewGroups.Size = new System.Drawing.Size(999, 268);
 			this.dataGridViewGroups.TabIndex = 0;
 			// 
+			// btnDelete
+			// 
+			this.btnDelete.Location = new System.Drawing.Point(833, 15);
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(75, 23);
+			this.btnDelete.TabIndex = 4;
+			this.btnDelete.Text = "Удалить";
+			this.btnDelete.UseVisualStyleBackColor = true;
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -261,6 +273,7 @@
 		private System.Windows.Forms.DataGridView dataGridViewGroups;
 		private System.Windows.Forms.ComboBox cbDirectionOnGroupTab;
 		private System.Windows.Forms.Label lblGroupsCount;
+		private System.Windows.Forms.Button btnDelete;
 	}
 }
 
