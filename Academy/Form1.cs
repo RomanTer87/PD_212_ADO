@@ -31,7 +31,7 @@ namespace Academy
 			LoadGroupsToCpmboBox(cbGroup);
 			LoadDirectionsToComboBox();
 			SelectStudents();
-			rbStudents.Checked= true;
+			rbStudents.Checked = true;
 			LoadDataToComboBox(cbDirectionOnGroupTab, "Directions", "direction_name", "Выберите направление");
 		}
 		void LoadTablesToComboBox()
@@ -41,7 +41,7 @@ namespace Academy
 
 			connection.Open();
 			reader = cmd.ExecuteReader();
-			while(reader.Read())
+			while (reader.Read())
 			{
 				//comboBox1.Items.Add(reader[0]);
 			}
@@ -66,7 +66,7 @@ namespace Academy
 			connection.Open();
 			reader = cmd.ExecuteReader();
 			comboBox.Items.Add(invite);
-			while(reader.Read())
+			while (reader.Read())
 			{
 				comboBox.Items.Add(reader[0]);
 			}
@@ -100,7 +100,7 @@ namespace Academy
 			TableStorage storage = new TableStorage();
 			storage.GetDataFromBase(table_name, column_name, condition);
 			DataRow[] rows = storage.Set.Tables[0].Select();
-			for(int i=0; i<rows.Length; i++)
+			for (int i = 0; i < rows.Length; i++)
 			{
 				comboBox.Items.Add(rows[i][column_name]);
 			}
@@ -126,14 +126,14 @@ namespace Academy
 			connection.Open();
 			reader = cmd.ExecuteReader();
 			table = new DataTable();
-			for(int i=0; i<reader.FieldCount; i++)
+			for (int i = 0; i < reader.FieldCount; i++)
 			{
 				table.Columns.Add(reader.GetName(i));
 			}
-			while(reader.Read())
+			while (reader.Read())
 			{
 				DataRow row = table.NewRow();
-				for(int i=0; i<reader.FieldCount;i++)
+				for (int i = 0; i < reader.FieldCount; i++)
 				{
 					row[i] = reader[i];
 				}
@@ -146,10 +146,10 @@ namespace Academy
 		public void LoadDirectionsToComboBox()
 		{
 			string commandLine = @"SELECT direction_name FROM Directions";
-			SqlCommand cmd = new SqlCommand(commandLine,connection);
+			SqlCommand cmd = new SqlCommand(commandLine, connection);
 			connection.Open();
 			reader = cmd.ExecuteReader();
-			while(reader.Read())
+			while (reader.Read())
 			{
 				cbDirection.Items.Add(reader[0]);
 			}
@@ -158,7 +158,7 @@ namespace Academy
 		}
 		void SelectStudents(string group = "")
 		{
-			string commandLine =@"
+			string commandLine = @"
 SELECT 
 	last_name, first_name, middle_name, birth_date, group_name
 FROM Students JOIN Groups ON Students.[group]=Groups.group_id";
@@ -167,14 +167,14 @@ FROM Students JOIN Groups ON Students.[group]=Groups.group_id";
 			connection.Open();
 			reader = cmd.ExecuteReader();
 			table = new DataTable();
-			for(int i=0;i<reader.FieldCount;i++)
+			for (int i = 0; i < reader.FieldCount; i++)
 			{
 				table.Columns.Add(reader.GetName(i));
 			}
-			while(reader.Read())
+			while (reader.Read())
 			{
 				DataRow row = table.NewRow();
-				for(int i=0;i<reader.FieldCount;i++) 
+				for (int i = 0; i < reader.FieldCount; i++)
 				{
 					row[i] = reader[i];
 				}
@@ -183,14 +183,14 @@ FROM Students JOIN Groups ON Students.[group]=Groups.group_id";
 			}
 			dgwStudents.DataSource = table;
 			reader.Close();
-			if (group.Length>0)
+			if (group.Length > 0)
 			{
 				cmd.CommandText = $@"
 SELECT COUNT(stud_id) 
 FROM Students JOIN Groups ON Students.[group]=Groups.group_id
-WHERE [group_name] = '{group}' GROUP BY group_name"; 
+WHERE [group_name] = '{group}' GROUP BY group_name";
 			}
-			else 
+			else
 			{
 				cmd.CommandText = $@"
 SELECT COUNT(stud_id) 
@@ -210,13 +210,13 @@ FROM Students JOIN Groups ON Students.[group]=Groups.group_id";
 			AddStudent add_student = new AddStudent();
 			LoadGroupsToCpmboBox(add_student.GroupCombo);
 			DialogResult result = add_student.ShowDialog(this);
-			if(result == DialogResult.OK)
+			if (result == DialogResult.OK)
 			{
 				SqlCommand cmd = new SqlCommand();
 				cmd.Connection = connection;
 				cmd.Parameters.Add("@last_name", add_student.FullName.Split(' ')[0]);
 				cmd.Parameters.Add("@first_name", add_student.FullName.Split(' ')[1]);
-				if(add_student.FullName.Split(' ').Length ==3)
+				if (add_student.FullName.Split(' ').Length == 3)
 					cmd.Parameters.Add("@middle_name", add_student.FullName.Split(' ')[2]);
 				cmd.Parameters.Add("@birth_date", add_student.BirthDate.ToString("yyyy-MM-dd"));
 				cmd.Parameters.Add("@group", add_student.Group);
@@ -241,7 +241,7 @@ END
 			dgwStudents.DataSource = null;
 			SqlCommand cmd = new SqlCommand();
 			cmd.Connection = connection;
-		if(cbDirection.SelectedItem !=null)	cmd.Parameters.Add("@direction", cbDirection.SelectedItem);
+			if (cbDirection.SelectedItem != null) cmd.Parameters.Add("@direction", cbDirection.SelectedItem);
 			if (rbStudents.Checked)
 			{
 				cmd.CommandText = @"
@@ -249,11 +249,11 @@ SELECT	last_name, first_name, middle_name, birth_date, group_name, direction_nam
 FROM	Students
 JOIN	Groups ON Students.[group]=Groups.group_id
 JOIN	Directions ON Groups.direction=Directions.direction_id";
-if(cbDirection.SelectedItem != null) cmd.CommandText +=
-@" WHERE	Directions.direction_name=@direction
-"; 
+				if (cbDirection.SelectedItem != null) cmd.CommandText +=
+				@" WHERE	Directions.direction_name=@direction
+";
 			}
-			if(rbGroups.Checked)
+			if (rbGroups.Checked)
 			{
 				cmd.CommandText = @"
 SELECT	group_name, direction_name
@@ -265,15 +265,15 @@ JOIN	Directions ON Groups.direction=Directions.direction_id";
 			}
 			connection.Open();
 			reader = cmd.ExecuteReader();
-			table=new DataTable();
-			for(int i=0;i<reader.FieldCount;i++)
+			table = new DataTable();
+			for (int i = 0; i < reader.FieldCount; i++)
 			{
 				table.Columns.Add(reader.GetName(i));
 			}
-			while(reader.Read())
+			while (reader.Read())
 			{
 				DataRow row = table.NewRow();
-				for(int i=0; i<reader.FieldCount;i++)
+				for (int i = 0; i < reader.FieldCount; i++)
 				{
 					row[i] = reader[i];
 				}
@@ -281,21 +281,22 @@ JOIN	Directions ON Groups.direction=Directions.direction_id";
 			}
 			dgwStudents.DataSource = table;
 			reader.Close();
-			int studentsCount = dgwStudents.RowCount -1;
+			int studentsCount = dgwStudents.RowCount - 1;
 			lblStudCount.Text = $"Количество студентов: {studentsCount}";
 			connection.Close();
 		}
 
 		private void rbGroups_CheckedChanged(object sender, EventArgs e)
 		{
-			if(rbGroups.Checked) { 
-			cbDirection_SelectedIndexChanged(sender, e);
+			if (rbGroups.Checked)
+			{
+				cbDirection_SelectedIndexChanged(sender, e);
 			}
 		}
 
 		private void rbStudents_CheckedChanged(object sender, EventArgs e)
 		{
-			if(rbStudents.Checked)
+			if (rbStudents.Checked)
 			{
 				cbDirection_SelectedIndexChanged(sender, e);
 			}
@@ -304,12 +305,21 @@ JOIN	Directions ON Groups.direction=Directions.direction_id";
 		private void cbDirectionOnGroupTab_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			//SelectDataFromTable(dataGridViewGroups, "Groups", "group_name", "direction");
+
+			string condition = "";
+			if (cbDirectionOnGroupTab.SelectedIndex != 0)
+				condition += $@"WHERE direction_name='{cbDirectionOnGroupTab.SelectedItem}'";
+
 			string commandLine = $@"
-SELECT group_name, direction_name 
+SELECT group_name, learning_days, direction_name, [number_of_students]=COUNT(stud_id) 
 FROM Groups JOIN Directions ON direction=direction_id
+LEFT JOIN Students	ON [group]=[group_id]
+{condition}
+GROUP BY [group_id], [group_name], [learning_days], [direction_name]
+ORDER BY [group_id]
 ";
-			if (cbDirectionOnGroupTab.SelectedIndex != 0) 
-				commandLine+=$@"WHERE direction_name='{cbDirectionOnGroupTab.SelectedItem}'";
+			//if (cbDirectionOnGroupTab.SelectedIndex != 0)
+			//	commandLine += $@"WHERE direction_name='{cbDirectionOnGroupTab.SelectedItem}'";
 			SelectDataFromTable(dataGridViewGroups, commandLine);
 			lblGroupsCount.Text = $"Количество групп: {dataGridViewGroups.Rows.Count - 1}";
 		}
@@ -321,23 +331,27 @@ FROM Groups JOIN Directions ON direction=direction_id
 			//LoadDataToComboBox(add.CBLearningForm, "LearningForms", "form_name", "Выберите форму обучения");
 			//LoadDataToComboBox(add.CBLearningTime, "LearningTimes", "time_name", "Выберите время обучения");
 			DialogResult result = add.ShowDialog();
-			{
-				if(result == DialogResult.OK)
-				{
-					//TableStorage storage = new TableStorage();
-					//storage.GetDataFromBase("Groups,Directions", "group_name, direction_name")
-					cbDirectionOnGroupTab_SelectedIndexChanged(sender, e);
-				}
-			}
+			//if (result == DialogResult.OK)
+			//{
+			//	//TableStorage storage = new TableStorage();
+			//	//storage.GetDataFromBase("Groups,Directions", "group_name, direction_name")
+			//}
+				cbDirectionOnGroupTab_SelectedIndexChanged(sender, e);
 		}
 
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
 			TableStorage storage = new TableStorage();
-			storage.GetDataFromBase("Groups,Directions", "group_name, direction_name", "direction=direction_id");
-			dataGridViewGroups.DataSource = storage.Set.Tables[0];
+			//storage.GetDataFromBase("Groups,Directions", "group_name, direction_name", "direction=direction_id");
+			//dataGridViewGroups.DataSource = storage.Set.Tables[0];
 
-			storage.Adapter.Update(storage.Set);
+			//storage.Adapter.Update(storage.Set);
+			storage.GetDataFromBase("Groups");
+			MessageBox.Show(this, dataGridViewGroups.SelectedRows[0].Cells["group_name"].Value.ToString(), "Info");
+			DataRow[] rows = storage.Set.Tables["Groups"].Select($"group_name = '{dataGridViewGroups.SelectedRows[0].Cells["group_name"].Value.ToString()}'");
+			rows[0].Delete();
+			storage.Adapter.Update(storage.Set, "Groups");
+			cbDirectionOnGroupTab_SelectedIndexChanged(sender, e);
 		}
 	}
 }

@@ -37,13 +37,13 @@
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.dgwStudents = new System.Windows.Forms.DataGridView();
 			this.cbGroup = new System.Windows.Forms.ComboBox();
-			this.tabPageTeachers = new System.Windows.Forms.TabPage();
 			this.tabPageGroups = new System.Windows.Forms.TabPage();
+			this.btnDelete = new System.Windows.Forms.Button();
 			this.lblGroupsCount = new System.Windows.Forms.Label();
 			this.cbDirectionOnGroupTab = new System.Windows.Forms.ComboBox();
 			this.btnGroupAdd = new System.Windows.Forms.Button();
 			this.dataGridViewGroups = new System.Windows.Forms.DataGridView();
-			this.btnDelete = new System.Windows.Forms.Button();
+			this.tabPageTeachers = new System.Windows.Forms.TabPage();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgwStudents)).BeginInit();
@@ -164,17 +164,6 @@
 			this.cbGroup.UseWaitCursor = true;
 			this.cbGroup.SelectedIndexChanged += new System.EventHandler(this.cbGroup_SelectedIndexChanged);
 			// 
-			// tabPageTeachers
-			// 
-			this.tabPageTeachers.Location = new System.Drawing.Point(4, 22);
-			this.tabPageTeachers.Name = "tabPageTeachers";
-			this.tabPageTeachers.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTeachers.Size = new System.Drawing.Size(1009, 400);
-			this.tabPageTeachers.TabIndex = 1;
-			this.tabPageTeachers.Text = "Преподаватели";
-			this.tabPageTeachers.UseVisualStyleBackColor = true;
-			this.tabPageTeachers.UseWaitCursor = true;
-			// 
 			// tabPageGroups
 			// 
 			this.tabPageGroups.BackColor = System.Drawing.SystemColors.Control;
@@ -189,6 +178,16 @@
 			this.tabPageGroups.Size = new System.Drawing.Size(1015, 315);
 			this.tabPageGroups.TabIndex = 2;
 			this.tabPageGroups.Text = "Группы";
+			// 
+			// btnDelete
+			// 
+			this.btnDelete.Location = new System.Drawing.Point(833, 15);
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(75, 23);
+			this.btnDelete.TabIndex = 4;
+			this.btnDelete.Text = "Удалить";
+			this.btnDelete.UseVisualStyleBackColor = true;
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
 			// lblGroupsCount
 			// 
@@ -210,6 +209,7 @@
 			// 
 			// btnGroupAdd
 			// 
+			this.btnGroupAdd.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnGroupAdd.Location = new System.Drawing.Point(928, 15);
 			this.btnGroupAdd.Name = "btnGroupAdd";
 			this.btnGroupAdd.Size = new System.Drawing.Size(75, 23);
@@ -223,19 +223,23 @@
 			this.dataGridViewGroups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewGroups.Location = new System.Drawing.Point(7, 44);
+			this.dataGridViewGroups.MultiSelect = false;
 			this.dataGridViewGroups.Name = "dataGridViewGroups";
+			this.dataGridViewGroups.ReadOnly = true;
+			this.dataGridViewGroups.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewGroups.Size = new System.Drawing.Size(999, 268);
 			this.dataGridViewGroups.TabIndex = 0;
 			// 
-			// btnDelete
+			// tabPageTeachers
 			// 
-			this.btnDelete.Location = new System.Drawing.Point(833, 15);
-			this.btnDelete.Name = "btnDelete";
-			this.btnDelete.Size = new System.Drawing.Size(75, 23);
-			this.btnDelete.TabIndex = 4;
-			this.btnDelete.Text = "Удалить";
-			this.btnDelete.UseVisualStyleBackColor = true;
-			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+			this.tabPageTeachers.Location = new System.Drawing.Point(4, 22);
+			this.tabPageTeachers.Name = "tabPageTeachers";
+			this.tabPageTeachers.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageTeachers.Size = new System.Drawing.Size(1015, 315);
+			this.tabPageTeachers.TabIndex = 1;
+			this.tabPageTeachers.Text = "Преподаватели";
+			this.tabPageTeachers.UseVisualStyleBackColor = true;
+			this.tabPageTeachers.UseWaitCursor = true;
 			// 
 			// Form1
 			// 
