@@ -353,5 +353,26 @@ ORDER BY [group_id]
 			storage.Adapter.Update(storage.Set, "Groups");
 			cbDirectionOnGroupTab_SelectedIndexChanged(sender, e);
 		}
+
+		private void dgwStudents_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+
+		}
+
+		private void dataGridViewGroups_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			TableStorage storage = new TableStorage();
+			storage.GetDataFromBase("Groups");
+			DataRow[] rows = storage.Set.Tables["groups"].Select($"group_name='{dataGridViewGroups.SelectedRows[0].Cells["group_name"].Value.ToString()}'");
+			AddGroup addGroup = new AddGroup
+				(
+				this, 
+				rows[0]["group_name"].ToString(), 
+				Convert.ToByte(rows[0]["direction"]),
+				Convert.ToByte(rows[0]["learning_time"]),
+				Convert.ToByte(rows[0]["learning_days"])
+				);
+			addGroup.ShowDialog(this);
+		}
 	}
 }

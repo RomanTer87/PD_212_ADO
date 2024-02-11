@@ -153,6 +153,7 @@
 			this.dgwStudents.Size = new System.Drawing.Size(1002, 250);
 			this.dgwStudents.TabIndex = 1;
 			this.dgwStudents.UseWaitCursor = true;
+			this.dgwStudents.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwStudents_CellDoubleClick);
 			// 
 			// cbGroup
 			// 
@@ -229,6 +230,7 @@
 			this.dataGridViewGroups.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewGroups.Size = new System.Drawing.Size(999, 268);
 			this.dataGridViewGroups.TabIndex = 0;
+			this.dataGridViewGroups.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewGroups_CellDoubleClick);
 			// 
 			// tabPageTeachers
 			// 
